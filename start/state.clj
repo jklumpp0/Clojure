@@ -1,3 +1,15 @@
+; Declare our namespace
+(ns ^{:author "Jared Klumpp"}
+    com.jaredklumpp.start
+    (:require [clojure.set :as set])
+    (:import (java.util Date)))
+
+; Print the date
+(println "You are running this on:" (new Date))
+
+; Test aliasing
+(println "The union of {1,2,3} and {3,4,5} is:" (set/union #{1 2 3} #{3 4 5}))
+
 ; Refs
 (def john (ref 1000))
 (def jane (ref 1000))
