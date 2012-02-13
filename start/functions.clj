@@ -1,3 +1,5 @@
+(ns jk)
+
 (defn fac 
     "Caclulate the factorial"
     ([n] (fac n 1))
