@@ -1,13 +1,9 @@
 # todo
 
-FIXME: write description
+An simple application for TODO lists
 
 ## Usage
 
-FIXME: write
+lein uberjar
+java -jar todo-XXX-standalone.jar -h
 
-## License
-
-Copyright (C) 2012 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
