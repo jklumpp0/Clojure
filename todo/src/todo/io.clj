@@ -5,7 +5,7 @@
     (:gen-class)
     ) 
 
-(defn create-file
+(defn ^{:private true} create-file
     "Create a non-existent file"
     [file-name]
     (try 

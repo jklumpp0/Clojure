@@ -1,7 +1,7 @@
 (ns todo.core
-    (:require [clojure.string :as str]
-              [todo.io :as io])
-    (:use clojure.tools.cli)
+    (:require [clojure.string :as str])
+    (:use [clojure.tools.cli]
+          [todo.io])
     (:gen-class)
     ) 
 
@@ -38,7 +38,7 @@
 (defn write-todos
     "Write out the todo items to a file, but first apply the format for parsing"
     [todos file-name]
-    (io/write-file file-name 
+    (write-file file-name 
         (map #(format "%s\t%s\n" (if (is-done? %) "X" "N") (:task %)) todos))
     todos)
 
@@ -99,4 +99,4 @@
                 (System/exit 0))
 
         ; Otherwise run the command
-        (run-app (io/process-file to-todo file) options file)))
+        (run-app (process-file to-todo file) options file)))
