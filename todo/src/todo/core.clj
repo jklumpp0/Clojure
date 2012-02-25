@@ -1,21 +1,10 @@
 (ns todo.core
     (:require [clojure.string :as str]
-              [clojure.java.io :as io])
+              [todo.io :as io])
     (:use clojure.tools.cli)
+    (:import java.io.FileNotFoundException)
     (:gen-class)
     ) 
-
-(defn read-file
-    "Read in a file as a sequence of lines"
-    [file-name]
-    (with-open
-        [rdr (io/reader file-name)]
-        (doall (line-seq rdr))))
-
-(defn process-file 
-     "Read in a file and parse it into a todo-list"
-     [line-func file-name]
-     (map-indexed line-func (read-file file-name)))
 
 (defn trim-split
     [line]
@@ -48,19 +37,16 @@
                 ))))
 
 (defn write-todos
+    "Write out the todo items to a file, but first apply the format for parsing"
     [todos file-name]
-    (with-open
-        [out (io/writer file-name)]
-        (doseq 
-            [item todos]
-            (.write out 
-                (format "%s\t%s\n" (if (is-done? item) "X" "N") (:task item))
-            )))
+    (io/write-file file-name 
+        (map #(format "%s\t%s\n" (if (is-done? %) "X" "N") (:task %)) todos))
     todos)
 
 (defn create
     [todos task]
-    (cons {:is-done false :task task :id (+ (count todos) 1)} todos))
+    (sort-by :id
+        (cons {:is-done false :task task :id (+ (count todos) 1)} todos)))
 
 (defn mark-done
     [todos id]
@@ -97,7 +83,6 @@
     (str/join (list (System/getProperty "user.home") "/.todos")))
 
 (defn -main [& args]
-    ;(write-todos (mark-done (process-file to-todo "/tmp/blah") 1) "/tmp/out"))
     (let
         [[options args banner]
             (cli args
@@ -115,4 +100,4 @@
                 (System/exit 0))
 
         ; Otherwise run the command
-        (run-app (process-file to-todo file) options file)))
+        (run-app (io/process-file to-todo file) options file)))
