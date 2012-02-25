@@ -2,7 +2,6 @@
     (:require [clojure.string :as str]
               [todo.io :as io])
     (:use clojure.tools.cli)
-    (:import java.io.FileNotFoundException)
     (:gen-class)
     ) 
 
