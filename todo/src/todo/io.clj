@@ -5,13 +5,30 @@
     (:gen-class)
     ) 
 
+(defn create-file
+    "Create a non-existent file"
+    [file-name]
+    (try 
+        (with-open [out (io/writer file-name)])
+        (catch FileNotFoundException e
+            (println "Could not create non-existent file" file-name)
+            (System/exit 0))))
+
 (defn open-file
     "Open or create a file"
     [file-name]
     (try 
-        (io/reader file-name)
-        (catch FileNotFoundException e
-            (do (with-open [out (io/writer file-name)]) (io/reader file-name)))))
+        (if (.exists (io/file file-name))
+            (try
+                (io/reader file-name)
+                (catch FileNotFoundException e
+                    (do 
+                        (println "Could not open the file" file-name)
+                        (System/exit 0)
+                )))
+            (do
+                (create-file file-name)
+                (io/reader file-name)))))
 
 (defn read-file
     "Read in a file as a sequence of lines"
