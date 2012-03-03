@@ -21,8 +21,7 @@
 (defn- make-sym-map
     [quote]
     (let [content (first (:content quote))]
-        {(-> quote (:attrs) (:symbol)) (-> content :content first)}
-        ))
+        {(-> quote (:attrs) (:symbol)) (-> content :content first)}))
 
 (defn get-syms
     [& quotes]
