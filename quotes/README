@@ -1,0 +1,12 @@
+# quotes
+Find current stock quotes from Yahoo finance
+
+## Usage
+lein run <LIST OF TICKER SYMBOLS>
+
+or
+
+lein repl
+(require '[quotes.core :as quotes])
+(quotes/get-syms 'VTI 'VNQ)
+
