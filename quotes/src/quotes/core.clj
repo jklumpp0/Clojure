@@ -21,14 +21,14 @@
 (defn- make-sym-map
     [quote]
     (let [content (first (:content quote))]
-        {:symbol (-> quote (:attrs) (:symbol)) :ask (-> content :content first)}
+        {(-> quote (:attrs) (:symbol)) (-> content :content first)}
         ))
 
 (defn get-syms
     [& quotes]
     (let
         [content (get-site (get-quote-url quotes))]
-        (merge (map make-sym-map (html/select content [:quote])))))
+        (reduce merge (map make-sym-map (html/select content [:quote])))))
 
 (defn -main
     [& args]
